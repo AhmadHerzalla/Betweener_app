@@ -35,7 +35,7 @@ class UserClass {
   dynamic emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
-  int? isActive;
+  String? isActive;
   dynamic country;
   dynamic ip;
   dynamic long;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tt9_betweener_challenge/views/login_view.dart';
-import 'package:tt9_betweener_challenge/views/main_app_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/auth/login_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/main_app_view.dart';
 
 class LoadingView extends StatefulWidget {
   static const id = '/loadingView';
@@ -31,8 +31,10 @@ class _LoadingViewState extends State<LoadingView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return Scaffold(
+      body: const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

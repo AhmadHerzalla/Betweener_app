@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tt9_betweener_challenge/views/home_view.dart';
-import 'package:tt9_betweener_challenge/views/profile_view.dart';
-import 'package:tt9_betweener_challenge/views/receive_view.dart';
-import 'package:tt9_betweener_challenge/views/widgets/custom_floating_nav_bar.dart';
+import 'package:tt9_betweener_challenge/views_featuers/home/home_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/profile/profile_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/receive/receive_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/custom_floating_nav_bar.dart';
 
 class MainAppView extends StatefulWidget {
   static String id = '/mainAppView';

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tt9_betweener_challenge/controllers/link_controller.dart';
-// import 'package:tt9_betweener_challenge/controllers/search_controller.dart';
-
+import 'package:provider/provider.dart';
+import 'package:tt9_betweener_challenge/core/helper/api_respons.dart';
+import 'package:tt9_betweener_challenge/core/helper/shared_prefs.dart';
+import 'package:tt9_betweener_challenge/core/util/constants.dart';
 import 'package:tt9_betweener_challenge/controllers/user_controller.dart';
-import 'package:tt9_betweener_challenge/views/add_link_view.dart';
-import 'package:tt9_betweener_challenge/views/search_view.dart';
-
-import '../constants.dart';
-import '../models/link.dart';
-import '../models/user.dart';
+import 'package:tt9_betweener_challenge/provider/link_provider.dart';
+import 'package:tt9_betweener_challenge/views_featuers/link/add_link_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/searsh/search_view.dart';
+import '../../models/user.dart';
 
 class HomeView extends StatefulWidget {
   static String id = '/homeView';
@@ -20,20 +19,19 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late Future<User1> user;
-  late Future<List<Link>> links;
 
   @override
   void initState() {
+    SharedPrefsController().getData('user');
     user = getLocalUser();
-    links = getLinks(context);
     super.initState();
   }
 
-  void refresh() {
-    setState(() {
-      links = getLinks(context);
-    });
-  }
+  // void refresh() {
+  //   setState(() {
+  //     //   links = getLinks(context);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +77,17 @@ class _HomeViewState extends State<HomeView> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
-            child: FutureBuilder(
-              future: links,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
+            child: Consumer<LinkProvider>(
+              builder: (_, linkProvider, __) {
+                print("===================================");
+                print(linkProvider.links);
+
+                if (linkProvider.links.status == Status.LOADING) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (linkProvider.links.status == Status.COMPLETED) {
                   return SizedBox(
                     height: 100,
                     child: Row(
@@ -92,8 +97,10 @@ class _HomeViewState extends State<HomeView> {
                               padding: const EdgeInsets.all(12),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                final link = snapshot.data?[index].title;
-                                final userName = snapshot.data?[index].username;
+                                final link =
+                                    linkProvider.links.data?[index].title;
+                                final userName =
+                                    linkProvider.links.data?[index].username;
                                 return Container(
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
@@ -126,12 +133,12 @@ class _HomeViewState extends State<HomeView> {
                                   width: 8,
                                 );
                               },
-                              itemCount: snapshot.data!.length),
+                              itemCount: linkProvider.links.data!.length),
                         ),
                         GestureDetector(
                           onTap: () async {
                             await Navigator.pushNamed(context, AddLink.id);
-                            refresh();
+                            // refresh();
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -150,10 +157,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   );
                 }
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                return const Text('loading');
+                return const Text("no data");
               },
             ),
           ),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tt9_betweener_challenge/constants.dart';
+import 'package:tt9_betweener_challenge/core/util/constants.dart';
+//import 'package:tt9_betweener_challenge/core/util/constants.dart';
 
-class PrimaryOutlinedButtonWidget extends StatelessWidget {
+class SecondaryButtonWidget extends StatelessWidget {
   final Function()? onTap;
   final double? width;
   final String text;
 
-  const PrimaryOutlinedButtonWidget(
+  const SecondaryButtonWidget(
       {super.key,
       required this.onTap,
       this.width = double.infinity,
@@ -15,9 +16,8 @@ class PrimaryOutlinedButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: kPrimaryColor, width: 2)),
+      borderRadius: BorderRadius.circular(12),
+      color: kSecondaryColor,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -28,7 +28,7 @@ class PrimaryOutlinedButtonWidget extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
-                  color: kPrimaryColor,
+                  color: kOnSecondaryColor,
                   fontSize: 14,
                   fontWeight: FontWeight.w500),
             ),

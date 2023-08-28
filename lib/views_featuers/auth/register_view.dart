@@ -1,10 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tt9_betweener_challenge/assets.dart';
-import 'package:tt9_betweener_challenge/views/widgets/custom_text_form_field.dart';
-import 'package:tt9_betweener_challenge/views/widgets/secondary_button_widget.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tt9_betweener_challenge/core/helper/shared_prefs.dart';
+import 'package:tt9_betweener_challenge/core/util/assets.dart';
+import 'package:tt9_betweener_challenge/controllers/register_controller.dart';
+//import 'package:tt9_betweener_challenge/models/register.dart';
+//import 'package:tt9_betweener_challenge/models/user.dart';
+import 'package:tt9_betweener_challenge/views_featuers/main_app_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/custom_text_form_field.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/google_button_widget.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/secondary_button_widget.dart';
 
-import '../../views/widgets/google_button_widget.dart';
+//import '../../views/widgets/google_button_widget.dart';
 
 class RegisterView extends StatefulWidget {
   static String id = '/registerView';
@@ -21,8 +30,42 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmationPasswordController =
+      TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  void submitLogin() {
+    if (_formKey.currentState!.validate()) {
+      final body = {
+        'name': nameController.text,
+        'email': emailController.text,
+        'password': passwordController.text,
+        'password_confirmation': confirmationPasswordController.text
+      };
+
+      register(body).then((user) async {
+        print(body);
+
+        //save user locally
+        //  SharedPrefsController().setData('token', user.token);
+        //SharedPrefsController().setData('user', user);
+        SharedPrefsController().setData('user', jsonEncode(user));
+        // final SharedPreferences prefs = await SharedPreferences.getInstance();
+        // await prefs.setString('user', registerToJson(user));
+
+        if (mounted) {
+          Navigator.pushNamed(context, MainAppView.id);
+        }
+      }).catchError((err) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(err.toString()),
+          backgroundColor: Colors.red,
+        ));
+      });
+
+      // Navigator.pushNamed(context, MainAppView.id);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +125,20 @@ class _RegisterViewState extends State<RegisterView> {
                     password: true,
                   ),
                   const SizedBox(
+                    height: 14,
+                  ),
+                  CustomTextFormField(
+                    controller: confirmationPasswordController,
+                    hint: 'Enter confirmation password',
+                    label: 'confirmation password',
+                    password: true,
+                  ),
+                  const SizedBox(
                     height: 24,
                   ),
                   SecondaryButtonWidget(
                       onTap: () {
-                        if (_formKey.currentState!.validate()) {}
+                        submitLogin();
                       },
                       text: 'REGISTER'),
                   const SizedBox(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tt9_betweener_challenge/styles.dart';
+import 'package:tt9_betweener_challenge/core/util/styles.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String label;

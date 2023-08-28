@@ -1,17 +1,20 @@
+import 'dart:convert';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tt9_betweener_challenge/assets.dart';
-import 'package:tt9_betweener_challenge/models/user.dart';
-import 'package:tt9_betweener_challenge/views/main_app_view.dart';
-import 'package:tt9_betweener_challenge/views/register_view.dart';
-import 'package:tt9_betweener_challenge/views/widgets/custom_text_form_field.dart';
-import 'package:tt9_betweener_challenge/views/widgets/primary_outlined_button_widget.dart';
-import 'package:tt9_betweener_challenge/views/widgets/secondary_button_widget.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tt9_betweener_challenge/core/helper/shared_prefs.dart';
+import 'package:tt9_betweener_challenge/core/util/assets.dart';
+//import 'package:tt9_betweener_challenge/models/user.dart';
+import 'package:tt9_betweener_challenge/views_featuers/main_app_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/auth/register_view.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/custom_text_form_field.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/primary_outlined_button_widget.dart';
+import 'package:tt9_betweener_challenge/views_featuers/widgets/secondary_button_widget.dart';
 
-import '../controllers/auth_controller.dart';
-import 'widgets/google_button_widget.dart';
+import '../../controllers/auth_controller.dart';
+import '../widgets/google_button_widget.dart';
 
 class LoginView extends StatefulWidget {
   static String id = '/loginView';
@@ -36,8 +39,15 @@ class _LoginViewState extends State<LoginView> {
 
       login(body).then((user) async {
         //save user locally
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('user', userToJson(user));
+        print("----------------------");
+        print(user.token);
+        print(user);
+        print(jsonEncode(user));
+        print(jsonEncode(user).runtimeType);
+        // SharedPrefsController().setData('token', user.token);
+        SharedPrefsController().setData('user', jsonEncode(user));
+        // final SharedPreferences prefs = await SharedPreferences.getInstance();
+        // await prefs.setString('user', userToJson(user));
 
         if (mounted) {
           Navigator.pushNamed(context, MainAppView.id);

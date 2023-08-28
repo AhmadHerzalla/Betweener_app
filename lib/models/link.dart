@@ -13,8 +13,8 @@ class Link {
   String? title;
   String? link;
   String? username;
-  int? isActive;
-  int? userId;
+  String? isActive;
+  String? userId;
   String? createdAt;
   String? updatedAt;
 

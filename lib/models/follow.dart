@@ -52,7 +52,7 @@ class Following {
   dynamic emailVerifiedAt;
   String? createdAt;
   String? updatedAt;
-  int? isActive;
+  String? isActive;
   dynamic country;
   dynamic ip;
   dynamic long;
@@ -114,7 +114,7 @@ class Link1 {
   String? title;
   String? link;
   dynamic username;
-  int? isActive;
+  String? isActive;
   int? userId;
   String? createdAt;
   String? updatedAt;
