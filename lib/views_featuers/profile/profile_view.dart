@@ -8,6 +8,7 @@ import 'package:tt9_betweener_challenge/models/follow.dart';
 import 'package:tt9_betweener_challenge/models/user.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tt9_betweener_challenge/provider/link_provider.dart';
+import 'package:tt9_betweener_challenge/views_featuers/follow_screens/following_screen%20.dart';
 import 'package:tt9_betweener_challenge/views_featuers/link/add_link_view.dart';
 import 'package:tt9_betweener_challenge/views_featuers/link/edit_link_view.dart';
 
@@ -123,17 +124,29 @@ class _ProfileViewState extends State<ProfileView> {
                           future: follow,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                    color: kSecondaryColor,
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Text(
-                                  'followers ${snapshot.data?.followersCount}',
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return FollowingScreen(
+                                        snapshot.data?.followers);
+                                  }));
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      color: kSecondaryColor,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  child: Text(
+                                    'followers ${snapshot.data?.followersCount}',
+                                  ),
                                 ),
                               );
                             }
-                            return const Text('loading');
+                            if (snapshot.hasError) {
+                              return Text(snapshot.error.toString());
+                            }
+                            return const CircularProgressIndicator();
                           },
                         ),
                         const SizedBox(
@@ -143,13 +156,22 @@ class _ProfileViewState extends State<ProfileView> {
                           future: follow,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                    color: kSecondaryColor,
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Text(
-                                  'following ${snapshot.data?.followingCount}',
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return FollowingScreen(
+                                        snapshot.data?.following);
+                                  }));
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      color: kSecondaryColor,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  child: Text(
+                                    'following ${snapshot.data?.followingCount}',
+                                  ),
                                 ),
                               );
                             }
@@ -164,8 +186,8 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
           Consumer<LinkProvider>(builder: (_, linkProvider, __) {
-            print("55555555555");
-            print(linkProvider.links);
+            // print("55555555555");
+            // print(linkProvider.links);
             if (linkProvider.links.status == Status.LOADING) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -186,6 +208,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                             return Slidable(
                               // The end action pane is the one at the right or the bottom side.
+
                               endActionPane: ActionPane(
                                 extentRatio: 0.6,
                                 motion: const ScrollMotion(),
@@ -215,8 +238,8 @@ class _ProfileViewState extends State<ProfileView> {
                                     borderRadius: BorderRadius.circular(16),
                                     icon: Icons.delete,
                                     onPressed: (BuildContext context) {
-                                      print(id);
-                                      print('---------------------------111');
+                                      // print(id);
+                                      // print('---------------------------111');
                                       linkProvider.deleteLinks(id!);
 
                                       // deleteLink(context, id!).then((value) {

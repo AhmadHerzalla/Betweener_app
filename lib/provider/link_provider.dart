@@ -11,6 +11,9 @@ class LinkProvider extends ChangeNotifier {
     _linkRepository = LinkRepository();
     _fetchLinks();
   }
+  void update() {
+    _fetchLinks();
+  }
 
   ApiResponse<List<Link>> get links => _links;
 

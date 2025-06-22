@@ -2,18 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:tt9_betweener_challenge/core/helper/shared_prefs.dart';
 import 'package:tt9_betweener_challenge/core/util/assets.dart';
 import 'package:tt9_betweener_challenge/controllers/register_controller.dart';
-//import 'package:tt9_betweener_challenge/models/register.dart';
-//import 'package:tt9_betweener_challenge/models/user.dart';
+import 'package:tt9_betweener_challenge/provider/link_provider.dart';
 import 'package:tt9_betweener_challenge/views_featuers/main_app_view.dart';
 import 'package:tt9_betweener_challenge/views_featuers/widgets/custom_text_form_field.dart';
 import 'package:tt9_betweener_challenge/views_featuers/widgets/google_button_widget.dart';
 import 'package:tt9_betweener_challenge/views_featuers/widgets/secondary_button_widget.dart';
-
-//import '../../views/widgets/google_button_widget.dart';
 
 class RegisterView extends StatefulWidget {
   static String id = '/registerView';
@@ -26,14 +23,12 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   TextEditingController nameController = TextEditingController();
-
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmationPasswordController =
       TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
+
   void submitLogin() {
     if (_formKey.currentState!.validate()) {
       final body = {
@@ -42,18 +37,10 @@ class _RegisterViewState extends State<RegisterView> {
         'password': passwordController.text,
         'password_confirmation': confirmationPasswordController.text
       };
-
       register(body).then((user) async {
-        print(body);
-
-        //save user locally
-        //  SharedPrefsController().setData('token', user.token);
-        //SharedPrefsController().setData('user', user);
         SharedPrefsController().setData('user', jsonEncode(user));
-        // final SharedPreferences prefs = await SharedPreferences.getInstance();
-        // await prefs.setString('user', registerToJson(user));
-
         if (mounted) {
+          Provider.of<LinkProvider>(context, listen: false).update();
           Navigator.pushNamed(context, MainAppView.id);
         }
       }).catchError((err) {
@@ -62,8 +49,6 @@ class _RegisterViewState extends State<RegisterView> {
           backgroundColor: Colors.red,
         ));
       });
-
-      // Navigator.pushNamed(context, MainAppView.id);
     }
   }
 

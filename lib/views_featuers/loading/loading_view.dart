@@ -19,7 +19,8 @@ class _LoadingViewState extends State<LoadingView> {
       print('navigate to main');
       Navigator.pushNamed(context, MainAppView.id);
     } else {
-      Navigator.pushNamed(context, LoginView.id);
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(  context, LoginView.id);
     }
   }
 
@@ -31,8 +32,8 @@ class _LoadingViewState extends State<LoadingView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: CircularProgressIndicator(),
       ),
     );

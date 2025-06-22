@@ -25,11 +25,6 @@ class _MainAppViewState extends State<MainAppView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   elevation: 0,
-      //   backgroundColor: Colors.transparent,
-      // ),
       body: SafeArea(child: screensList[_currentIndex]!),
       extendBody: true,
       bottomNavigationBar: CustomFloatingNavBar(

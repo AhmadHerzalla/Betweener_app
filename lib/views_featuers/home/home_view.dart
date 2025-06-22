@@ -5,6 +5,7 @@ import 'package:tt9_betweener_challenge/core/helper/shared_prefs.dart';
 import 'package:tt9_betweener_challenge/core/util/constants.dart';
 import 'package:tt9_betweener_challenge/controllers/user_controller.dart';
 import 'package:tt9_betweener_challenge/provider/link_provider.dart';
+import 'package:tt9_betweener_challenge/views_featuers/auth/login_view.dart';
 import 'package:tt9_betweener_challenge/views_featuers/link/add_link_view.dart';
 import 'package:tt9_betweener_challenge/views_featuers/searsh/search_view.dart';
 import '../../models/user.dart';
@@ -27,12 +28,6 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
-  // void refresh() {
-  //   setState(() {
-  //     //   links = getLinks(context);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,8 +36,15 @@ class _HomeViewState extends State<HomeView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              IconButton(
+                  onPressed: () async {
+                    await SharedPrefsController().deletdata();
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => const LoginView()));
+                  },
+                  icon: const Icon(Icons.logout)),
+              const Spacer(),
               IconButton(
                   onPressed: () async {
                     //  print(await searchFunction(context, {'name': 'ahmad'}));
@@ -79,11 +81,11 @@ class _HomeViewState extends State<HomeView> {
             padding: const EdgeInsets.only(top: 40.0),
             child: Consumer<LinkProvider>(
               builder: (_, linkProvider, __) {
-                print("===================================");
-                print(linkProvider.links);
+                // print("===================================");
+                // print(linkProvider.links);
 
                 if (linkProvider.links.status == Status.LOADING) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }

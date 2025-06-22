@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tt9_betweener_challenge/core/util/constants.dart';
 import 'package:tt9_betweener_challenge/provider/link_provider.dart';
+import 'package:tt9_betweener_challenge/provider/sender_provider.dart';
 
 import 'package:tt9_betweener_challenge/views_featuers/link/add_link_view.dart';
 import 'package:tt9_betweener_challenge/views_featuers/home/home_view.dart';
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: (BuildContext context) => LinkProvider()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => SenderProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

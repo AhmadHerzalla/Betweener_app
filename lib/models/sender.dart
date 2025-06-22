@@ -1,48 +1,79 @@
+// To parse this JSON data, do
+//
+//     final sender = senderFromJson(jsonString);
+
 import 'dart:convert';
 
-Follow followFromJson(String str) => Follow.fromJson(json.decode(str));
+Sender senderFromJson(String str) => Sender.fromJson(json.decode(str));
 
-String followToJson(Follow data) => json.encode(data.toJson());
+String senderToJson(Sender data) => json.encode(data.toJson());
 
-class Follow {
-  int? followingCount;
-  int? followersCount;
-  List<FollowerElement>? following;
-  List<FollowerElement>? followers;
+class Sender {
+  int? count;
+  List<NearestUser>? nearestUsers;
 
-  Follow({
-    this.followingCount,
-    this.followersCount,
-    this.following,
-    this.followers,
+  Sender({
+    this.count,
+    this.nearestUsers,
   });
 
-  factory Follow.fromJson(Map<String, dynamic> json) => Follow(
-        followingCount: json["following_count"],
-        followersCount: json["followers_count"],
-        following: json["following"] == null
+  factory Sender.fromJson(Map<String, dynamic> json) => Sender(
+        count: json["count"],
+        nearestUsers: json["nearest-users"] == null
             ? []
-            : List<FollowerElement>.from(
-                json["following"]!.map((x) => FollowerElement.fromJson(x))),
-        followers: json["followers"] == null
-            ? []
-            : List<FollowerElement>.from(
-                json["followers"]!.map((x) => FollowerElement.fromJson(x))),
+            : List<NearestUser>.from(
+                json["nearest-users"]!.map((x) => NearestUser.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "following_count": followingCount,
-        "followers_count": followersCount,
-        "following": following == null
+        "count": count,
+        "nearest-users": nearestUsers == null
             ? []
-            : List<dynamic>.from(following!.map((x) => x.toJson())),
-        "followers": followers == null
-            ? []
-            : List<dynamic>.from(followers!.map((x) => x.toJson())),
+            : List<dynamic>.from(nearestUsers!.map((x) => x.toJson())),
       };
 }
 
-class FollowerElement {
+class NearestUser {
+  int? id;
+  String? userId;
+  String? type;
+  String? createdAt;
+  String? updatedAt;
+  int? distance;
+  User? user;
+
+  NearestUser({
+    this.id,
+    this.userId,
+    this.type,
+    this.createdAt,
+    this.updatedAt,
+    this.distance,
+    this.user,
+  });
+
+  factory NearestUser.fromJson(Map<String, dynamic> json) => NearestUser(
+        id: json["id"],
+        userId: json["user_id"],
+        type: json["type"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+        distance: json["distance"],
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "user_id": userId,
+        "type": type,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "distance": distance,
+        "user": user?.toJson(),
+      };
+}
+
+class User {
   int? id;
   String? name;
   String? email;
@@ -52,11 +83,11 @@ class FollowerElement {
   String? isActive;
   dynamic country;
   dynamic ip;
-  String? long;
-  String? lat;
+  dynamic long;
+  dynamic lat;
   List<Link>? links;
 
-  FollowerElement({
+  User({
     this.id,
     this.name,
     this.email,
@@ -71,8 +102,7 @@ class FollowerElement {
     this.links,
   });
 
-  factory FollowerElement.fromJson(Map<String, dynamic> json) =>
-      FollowerElement(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -111,7 +141,7 @@ class Link {
   int? id;
   String? title;
   String? link;
-  String? username;
+  dynamic username;
   String? isActive;
   String? userId;
   String? createdAt;

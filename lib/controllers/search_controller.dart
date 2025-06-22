@@ -15,10 +15,10 @@ import 'package:tt9_betweener_challenge/models/search.dart';
 // import '../core/util/constants.dart';
 
 Future<List> searchFunction(Map<String, String> body) async {
-  final ApiBaseHelper _helper = ApiBaseHelper();
+  final ApiBaseHelper helper = ApiBaseHelper();
   final token = await SharedPrefsController().getData('user');
 
-  final response = await _helper
+  final response = await helper
       .post("/search", body, {'Authorization': 'Bearer ${token['token']}'});
   // Map<String, dynamic> finalrespons = jsonDecode(response.body);
 
